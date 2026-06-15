@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev em Crise - Tomando Café</title>
+    <title>Dev em Crise - Ajustado</title>
     <style>
         :root {
             --bg-office: #1e1e24;
@@ -57,6 +57,7 @@
             border: 6px solid #444;
             border-radius: 50%;
             opacity: 0.15;
+            z-index: 1;
         }
         .relogio::before, .relogio::after {
             content: '';
@@ -88,15 +89,15 @@
             background-color: var(--desk-color);
             border-top: 8px solid #8b4513;
             border-right: 4px solid #72380f;
-            z-index: 10;
+            z-index: 5;
         }
 
-        /* Monitor VIRADO PARA O PERSONAGEM (Perspectiva Invertida) */
+        /* Monitor: Afastado para não cobrir o rosto */
         .computador {
             position: absolute;
             bottom: 135px;
-            left: 40px;
-            z-index: 11;
+            left: 20px; /* Afastado mais para a esquerda */
+            z-index: 6;
         }
         .suporte {
             width: 20px;
@@ -116,13 +117,12 @@
             border-radius: 4px;
         }
         .monitor {
-            width: 160px;
+            width: 140px; /* Reduzido levemente para dar espaço ao boneco */
             height: 220px;
             background: #2d3139;
             border-radius: 8px;
             padding: 8px;
-            /* Inversão da borda escura para a direita cria a ilusão de que a tela aponta para o boneco */
-            border-right: 14px solid #111; 
+            border-right: 12px solid #111; 
             border-left: 2px solid #444;
             box-shadow: -10px 10px 20px rgba(0,0,0,0.3);
         }
@@ -136,7 +136,7 @@
             position: relative;
         }
 
-        /* Linhas de código na tela */
+        /* Linhas de código */
         .linhas-codigo {
             display: flex;
             flex-direction: column;
@@ -157,12 +157,12 @@
         .teclado {
             position: absolute;
             bottom: 140px;
-            left: 210px;
+            left: 190px;
             width: 90px;
             height: 12px;
             background: #222;
             border-radius: 2px;
-            z-index: 12;
+            z-index: 7;
             transform: skewX(-10deg);
         }
 
@@ -173,7 +173,7 @@
             right: 180px;
             width: 140px;
             height: 320px;
-            z-index: 5;
+            z-index: 2;
         }
         .encosto {
             width: 90px;
@@ -223,7 +223,7 @@
             right: 200px;
             width: 200px;
             height: 240px;
-            z-index: 8;
+            z-index: 12; /* Fica à frente de quase tudo */
         }
         .corpo {
             width: 45px;
@@ -244,6 +244,7 @@
             top: 15px;
             left: 65px;
             box-shadow: inset -5px -5px 0 rgba(0,0,0,0.1);
+            z-index: 13;
         }
         .cabelo {
             position: absolute;
@@ -267,7 +268,7 @@
             transform: rotate(35deg);
         }
 
-        /* Expressão de Ansiedade */
+        /* Expressão */
         .olho {
             position: absolute;
             top: 22px;
@@ -320,7 +321,7 @@
             animation: suar 2s infinite;
         }
 
-        /* BRAÇO DE TRÁS: Continua digitando sem parar */
+        /* BRAÇO DE TRÁS: Sempre digitando */
         .braco.atras {
             position: absolute;
             top: 90px;
@@ -333,10 +334,10 @@
             transform: rotate(-20deg);
             opacity: 0.7;
             animation: digitar-braco 0.1s infinite alternate;
-            z-index: 4;
+            z-index: 3;
         }
 
-        /* BRAÇO DA FRENTE: Sincronizado para pegar o café e levar à boca */
+        /* BRAÇO DA FRENTE: Pega o café fisicamente na mesa e leva à boca */
         .braco.frente {
             position: absolute;
             top: 95px;
@@ -346,8 +347,7 @@
             background: var(--skin);
             border-radius: 6px;
             transform-origin: right center;
-            z-index: 9;
-            /* Usa a mesma linha do tempo (12s) coordenada com o café */
+            z-index: 20; /* Fica no topo para segurar a caneca */
             animation: braco-pega-cafe 12s infinite ease-in-out;
         }
         .maos {
@@ -360,11 +360,11 @@
             border-radius: 50%;
         }
 
-        /* Linhas de movimento rápidas na digitação */
+        /* Rastro rápido das mãos */
         .linhas-movimento {
             position: absolute;
             top: 85px;
-            left: -10px;
+            left: -30px;
             width: 60px;
             height: 40px;
             z-index: 15;
@@ -380,16 +380,16 @@
         .traco-rapido:nth-child(2) { width: 35px; top: 15px; left: 0px; animation: rastro 0.15s infinite 0.05s; }
         .traco-rapido:nth-child(3) { width: 20px; top: 30px; left: 15px; animation: rastro 0.08s infinite 0.02s; }
 
-        /* Caneca de Café Interativa */
+        /* CANECA DE CAFÉ: Posicionada de forma alcançável e movendo-se junto com a mão */
         .caneca-cafe {
             position: absolute;
             bottom: 140px;
-            left: 330px;
+            left: 290px; /* Trazida mais para perto do boneco */
             width: 30px;
             height: 35px;
             background: #fff;
             border-radius: 0 0 6px 6px;
-            z-index: 12;
+            z-index: 25; /* Camada superior para simular que está na mão */
             animation: beber-cafe 12s infinite ease-in-out;
             transform-origin: bottom center;
         }
@@ -415,33 +415,32 @@
             animation: subir-vapor 2s infinite ease-in-out;
         }
 
-        /* ANIMAÇÕES COREOGRAFADAS (Baseadas no ciclo de 12 segundos) */
+        /* TIMELINES SINCRO DE 12 SEGUNDOS */
         
-        /* 1. O Café se move em direção à boca */
+        /* O movimento real da caneca saindo da mesa até a boca */
         @keyframes beber-cafe {
-            0%, 70%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            73% { transform: translate(-35px, 0px) rotate(0deg); } /* Aproxima a mão da mesa */
-            78%, 85% { transform: translate(-182px, -112px) rotate(-35deg); } /* Vai para a boca e inclina */
-            90% { transform: translate(0, 0) rotate(0deg); } /* Volta para a mesa */
+            0%, 70%, 100% { transform: translate(0, 0) rotate(0deg); }
+            73% { transform: translate(-10px, 0px) rotate(0deg); } /* Mão encontra a caneca */
+            78%, 85% { transform: translate(-130px, -112px) rotate(-30deg); } /* Levada perfeitamente até a boca */
+            90% { transform: translate(0, 0) rotate(0deg); } /* Devolvida à mesa */
         }
 
-        /* 2. O Braço da Frente para de digitar, estica, pega o café e leva à boca */
+        /* O braço estica para baixo (pega), sobe girando (boca) e volta a digitar */
         @keyframes braco-pega-cafe {
-            /* 0% a 70%: Digitante insano */
+            /* 0% até 70%: Digitação normal */
             0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70% { transform: rotate(-20deg) translateY(-3px); }
             2.5%, 7.5%, 12.5%, 17.5%, 22.5%, 27.5%, 32.5%, 37.5%, 42.5%, 47.5%, 52.5%, 57.5%, 62.5%, 67.5% { transform: rotate(-33deg) translateY(3px); }
             
-            /* 73%: Estica a mão em direção à mesa/caneca */
-            73% { transform: rotate(15deg) translate(-20px, 15px); } 
+            /* 73%: O braço rotaciona para baixo buscando o café na mesa */
+            73% { transform: rotate(12deg) translate(-10px, 12px); } 
             
-            /* 78% a 85%: Ergue a caneca até a boca */
-            78%, 85% { transform: rotate(-75deg) translate(35px, -55px); } 
+            /* 78% até 85%: Ergue em direção ao rosto */
+            78%, 85% { transform: rotate(-72deg) translate(35px, -50px); } 
             
-            /* 90%: Devolve na mesa e retorna à digitação */
+            /* 90%: Repousa e volta */
             90% { transform: rotate(-20deg); }
         }
 
-        /* 3. O Rastro das duas mãos desaparece quando apenas uma digita */
         @keyframes sumir-rastro {
             0%, 70%, 90%, 100% { opacity: 1; }
             71%, 89% { opacity: 0; }
@@ -461,10 +460,8 @@
 <body>
 
     <div class="escritorio">
-        <!-- Relógio acelerado ao fundo -->
         <div class="relogio"></div>
 
-        <!-- Monitor Lateral com Tela voltada para o Personagem -->
         <div class="computador">
             <div class="monitor">
                 <div class="tela">
@@ -481,44 +478,35 @@
             <div class="base"></div>
         </div>
 
-        <!-- Teclado -->
         <div class="teclado"></div>
 
-        <!-- Caneca de Café Sincronizada -->
         <div class="caneca-cafe">
             <div class="vapor"></div>
         </div>
 
-        <!-- Cadeira Gamer -->
         <div class="cadeira-gamer">
             <div class="rodas"></div>
             <div class="assento"></div>
             <div class="encosto"></div>
         </div>
 
-        <!-- O Desenvolvedor -->
         <div class="boneco">
-            <!-- Braço de trás (Sempre digitando) -->
             <div class="braco atras">
                 <div class="maos"></div>
             </div>
             
-            <!-- Efeitos visuais de digitação veloz -->
             <div class="linhas-movimento">
                 <div class="traco-rapido"></div>
                 <div class="traco-rapido"></div>
                 <div class="traco-rapido"></div>
             </div>
 
-            <!-- Corpo -->
             <div class="corpo"></div>
 
-            <!-- Braço da frente (Digita e pega o café) -->
             <div class="braco frente">
                 <div class="maos"></div>
             </div>
 
-            <!-- Cabeça -->
             <div class="cabeca">
                 <div class="cabelo">
                     <div class="cabelo-espetado"></div>
@@ -536,7 +524,6 @@
             </div>
         </div>
 
-        <!-- Superfície da Mesa -->
         <div class="mesa"></div>
     </div>
 
