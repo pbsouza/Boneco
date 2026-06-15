@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev em Crise - CSS Art Animado</title>
+    <style>
+        :root {
+            --bg-office: #1e1e24;
+            --desk-color: #a0522d;
+            --chair-main: #111;
+            --chair-accent: #ff3333;
+            --skin: #ffdbac;
+            --hair: #4a3728;
+            --screen-bg: #0d1117;
+            --code-green: #39ff14;
+            --code-blue: #00bfff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #121214;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* Cenário do Escritório */
+        .escritorio {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            background: linear-gradient(to bottom, #2a2d32, #1f2124);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 4px solid #333;
+        }
+
+        /* Relógio de parede ao fundo (Corre rápido) */
+        .relogio {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            border: 6px solid #444;
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+        .relogio::before, .relogio::after {
+            content: '';
+            position: absolute;
+            background: #000;
+            transform-origin: bottom center;
+            left: calc(50% - 2px);
+        }
+        .relogio::before {
+            top: 10px;
+            width: 4px;
+            height: 30px;
+            animation: rodar 2s linear infinite;
+        }
+        .relogio::after {
+            top: 20px;
+            width: 4px;
+            height: 20px;
+            animation: rodar 24s linear infinite;
+        }
+
+        /* Mesa de Trabalho */
+        .mesa {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 550px;
+            height: 140px;
+            background-color: var(--desk-color);
+            border-top: 8px solid #8b4513;
+            border-right: 4px solid #72380f;
+            z-index: 10;
+        }
+
+        /* Computador Visão Lateral/Perfil */
+        .computador {
+            position: absolute;
+            bottom: 135px;
+            left: 40px;
+            z-index: 11;
+        }
+        .suporte {
+            width: 20px;
+            height: 60px;
+            background: #333;
+            margin-left: 60px;
+            position: absolute;
+            bottom: -55px;
+        }
+        .base {
+            width: 100px;
+            height: 8px;
+            background: #222;
+            position: absolute;
+            bottom: -55px;
+            margin-left: 20px;
+            border-radius: 4px;
+        }
+        .monitor {
+            width: 160px;
+            height: 220px;
+            background: #2d3139;
+            border-radius: 8px;
+            padding: 8px;
+            border-left: 12px solid #111; /* Profundidade 3D */
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.3);
+        }
+        .tela {
+            width: 100%;
+            height: 100%;
+            background: var(--screen-bg);
+            border-radius: 4px;
+            padding: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Linhas de código subindo na tela */
+        .linhas-codigo {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .linha {
+            height: 6px;
+            background: var(--code-green);
+            border-radius: 2px;
+            width: 0%;
+            animation: digitar-tela 3s infinite linear;
+        }
+        .linha:nth-child(2n) { background: var(--code-blue); animation-delay: 0.5s; }
+        .linha:nth-child(3n) { background: #ff79c6; animation-delay: 1s; }
+        .linha:nth-child(4n) { width: 40%; animation: none; opacity: 0.6; }
+
+        /* Teclado */
+        .teclado {
+            position: absolute;
+            bottom: 140px;
+            left: 210px;
+            width: 90px;
+            height: 12px;
+            background: #222;
+            border-radius: 2px;
+            z-index: 12;
+            transform: skewX(-10deg);
+        }
+
+        /* Cadeira Gamer */
+        .cadeira-gamer {
+            position: absolute;
+            bottom: 40px;
+            right: 180px;
+            width: 140px;
+            height: 320px;
+            z-index: 5;
+        }
+        .encosto {
+            width: 90px;
+            height: 180px;
+            background: var(--chair-main);
+            border-left: 15px solid var(--chair-accent); /* Detalhe colorido gamer */
+            border-right: 5px solid var(--chair-main);
+            border-radius: 25px 20px 10px 10px;
+            position: absolute;
+            top: 0;
+            left: 30px;
+            transform: rotate(-5deg);
+        }
+        .assento {
+            width: 110px;
+            height: 30px;
+            background: var(--chair-main);
+            border-bottom: 8px solid var(--chair-accent);
+            border-radius: 0 10px 10px 10px;
+            position: absolute;
+            top: 175px;
+            left: 20px;
+        }
+        .rodas {
+            width: 12px;
+            height: 90px;
+            background: #222;
+            position: absolute;
+            bottom: 0;
+            left: 70px;
+        }
+        .rodas::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -40px;
+            width: 90px;
+            height: 10px;
+            background: #111;
+            border-radius: 5px;
+        }
+
+        /* Boneco e Animações de Ansiedade */
+        .boneco {
+            position: absolute;
+            bottom: 110px;
+            right: 200px;
+            width: 200px;
+            height: 240px;
+            z-index: 8;
+        }
+        .corpo {
+            width: 45px;
+            height: 100px;
+            background: #333;
+            border-radius: 20px;
+            position: absolute;
+            bottom: 10px;
+            left: 90px;
+            transform: rotate(-15deg); /* Inclinado para frente */
+        }
+        .cabeca {
+            width: 65px;
+            height: 65px;
+            background: var(--skin);
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            left: 65px;
+            box-shadow: inset -5px -5px 0 rgba(0,0,0,0.1);
+        }
+        .cabelo {
+            position: absolute;
+            top: -5px;
+            left: 10px;
+            width: 60px;
+            height: 30px;
+            background: var(--hair);
+            border-radius: 20px 20px 0 0;
+            transform: rotate(-10deg);
+        }
+        .cabelo-espetado {
+            position: absolute;
+            top: -12px;
+            right: -2px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid var(--hair);
+            transform: rotate(35deg);
+        }
+
+        /* Olhos Arregalados */
+        .olho {
+            position: absolute;
+            top: 22px;
+            left: 12px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            border: 1px solid #000;
+        }
+        .olho.direito { left: 30px; }
+        .pupila {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: black;
+            border-radius: 50%;
+            top: 4px;
+            left: 3px;
+            animation: tremer-pupila 0.5s infinite alternate;
+        }
+        .sobrancelha {
+            position: absolute;
+            top: 12px;
+            left: 10px;
+            width: 16px;
+            height: 4px;
+            background: var(--hair);
+            transform: rotate(-15deg); /* Curvadas de preocupação */
+        }
+        .sobrancelha.direita { left: 28px; transform: rotate(15deg); }
+
+        /* Boca trêmula */
+        .boca {
+            position: absolute;
+            bottom: 12px;
+            left: 16px;
+            width: 25px;
+            height: 8px;
+            border: 2px solid #000;
+            border-radius: 4px;
+            animation: tremer-boca 0.1s infinite;
+        }
+
+        /* Gotas de suor caindo */
+        .suor {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            width: 4px;
+            height: 8px;
+            background: #00bfff;
+            border-radius: 50%/60% 60% 40% 40%;
+            animation: suar 2s infinite;
+        }
+
+        /* Braços digitando loucamente */
+        .braco {
+            position: absolute;
+            top: 95px;
+            left: 65px;
+            width: 70px;
+            height: 12px;
+            background: var(--skin);
+            border-radius: 6px;
+            transform-origin: right center;
+            transform: rotate(-20deg);
+            animation: digitar-braco 0.12s infinite alternate;
+            z-index: 9;
+        }
+        .braco.atras {
+            top: 90px;
+            left: 55px;
+            opacity: 0.7;
+            animation-delay: 0.06s;
+            z-index: 4;
+        }
+        .maos {
+            position: absolute;
+            left: -10px;
+            top: -4px;
+            width: 18px;
+            height: 18px;
+            background: var(--skin);
+            border-radius: 50%;
+        }
+
+        /* Linhas de desfoque/movimento veloz */
+        .linhas-movimento {
+            position: absolute;
+            top: 85px;
+            left: -10px;
+            width: 60px;
+            height: 40px;
+            z-index: 15;
+        }
+        .traco-rapido {
+            position: absolute;
+            height: 2px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 2px;
+        }
+        .traco-rapido:nth-child(1) { width: 25px; top: 5px; left: 10px; animation: rastro 0.1s infinite; }
+        .traco-rapido:nth-child(2) { width: 35px; top: 15px; left: 0px; animation: rastro 0.15s infinite 0.05s; }
+        .traco-rapido:nth-child(3) { width: 20px; top: 30px; left: 15px; animation: rastro 0.08s infinite 0.02s; }
+
+        /* Caneca de Café Interativa */
+        .caneca-cafe {
+            position: absolute;
+            bottom: 140px;
+            left: 350px;
+            width: 30px;
+            height: 35px;
+            background: #fff;
+            border-radius: 0 0 6px 6px;
+            z-index: 12;
+            animation: beber-cafe 12s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+        .caneca-cafe::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 6px;
+            width: 10px;
+            height: 18px;
+            border: 3px solid #fff;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+        }
+        .vapor {
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            width: 2px;
+            height: 12px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: subir-vapor 2s infinite ease-in-out;
+        }
+
+        /* TIMELINES DAS ANIMAÇÕES */
+        @keyframes rodar { 100% { transform: rotate(360deg); } }
+        @keyframes digitar-tela { 0% { width: 0%; } 50% { width: 90%; } 100% { width: 95%; opacity: 0; } }
+        @keyframes tremer-pupila { 0% { transform: translate(0, 0); } 100% { transform: translate(2px, 1px); } }
+        @keyframes tremer-boca { 0% { transform: scaleY(1) skewX(0deg); } 50% { transform: scaleY(0.8) skewX(-5deg); } 100% { transform: scaleY(1.1) skewX(5deg); } }
+        @keyframes suar { 0% { top: 15px; opacity: 0; } 30% { opacity: 0.8; } 100% { top: 35px; opacity: 0; } }
+        @keyframes digitar-braco { 0% { transform: rotate(-15deg) translateY(-3px); } 100% { transform: rotate(-28deg) translateY(3px); } }
+        @keyframes rastro { 0% { opacity: 0; transform: translateX(-5px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateX(5px); } }
+        @keyframes subir-vapor { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-12px); opacity: 0; } }
+        
+        /* A caneca espera na mesa, voa até a boca do boneco, inclina para beber e retorna */
+        @keyframes beber-cafe {
+            0%, 70%, 100% { transform: translate(0, 0) rotate(0deg); }
+            75% { transform: translate(-100px, -110px) scale(1.1); }
+            80%, 85% { transform: translate(-100px, -110px) rotate(-35deg) scale(1.1); }
+            90% { transform: translate(0, 0) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="escritorio">
+        <div class="relogio"></div>
+
+        <div class="computador">
+            <div class="monitor">
+                <div class="tela">
+                    <div class="linhas-codigo">
+                        <div class="linha"></div>
+                        <div class="linha"></div>
+                        <div class="linha"></div>
+                        <div class="linha"></div>
+                        <div class="linha"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="suporte"></div>
+            <div class="base"></div>
+        </div>
+
+        <div class="teclado"></div>
+
+        <div class="caneca-cafe">
+            <div class="vapor"></div>
+        </div>
+
+        <div class="cadeira-gamer">
+            <div class="rodas"></div>
+            <div class="assento"></div>
+            <div class="encosto"></div>
+        </div>
+
+        <div class="boneco">
+            <div class="braco atras">
+                <div class="maos"></div>
+            </div>
+            
+            <div class="linhas-movimento">
+                <div class="traco-rapido"></div>
+                <div class="traco-rapido"></div>
+                <div class="traco-rapido"></div>
+            </div>
+
+            <div class="corpo"></div>
+
+            <div class="braco">
+                <div class="maos"></div>
+            </div>
+
+            <div class="cabeca">
+                <div class="cabelo">
+                    <div class="cabelo-espetado"></div>
+                </div>
+                <div class="sobrancelha"></div>
+                <div class="sobrancelha direita"></div>
+                <div class="olho">
+                    <div class="pupila"></div>
+                </div>
+                <div class="olho direito">
+                    <div class="pupila"></div>
+                </div>
+                <div class="boca"></div>
+                <div class="suor"></div>
+            </div>
+        </div>
+
+        <div class="mesa"></div>
+    </div>
+
+</body>
+</html>
